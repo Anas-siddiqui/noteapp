@@ -10,6 +10,8 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
  var request = require("request");
+var JsonDB = require('node-json-db');
+var db = new JsonDB("database_notes", true, false);
 var app = express();
 //
 var to_search="";
@@ -18,6 +20,13 @@ var json_final="";
 
 var card_text="";
 var timerstamp;
+var user_id="";
+ var user_new=true;
+var notes_total;
+  var user_db_count=0;
+var user_notes=0;
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -56,20 +65,99 @@ function requestVerifier(req, res, next) {
 // catch 404 and forward to error handler
 
 app.post('/skill',  function(req, res) {
+    user_id="";
+   user_notes=0;
+   
+    user_new=true;
+    
+ user_id=req.body.session.user.userId;
+   
+     try {
+    notes_total = db.getData("/notes");
+         notes_total=notes_total.length;
+        
+         
+         } catch(error) { console.error(error);}
  
-   var temp;
-    if (req.body.request.type === 'LaunchRequest') { 
+    for(var i=0;i<notes_total;i++)
+    {
+  
+var data = db.getData("/notes["+i+"]/id");
+    
+ 
+       if(user_id==data){
+           
+           user_db_count=i; 
+           console.log("matched at "+user_db_count); 
+           user_new=false; 
+           data=db.getData("/notes["+user_db_count+"]/first");
+        
+          if(data){
+              user_notes++;
+          }
+            data=db.getData("/notes["+user_db_count+"]/second");
+          if(data){
+              user_notes++;
+          }
+           
+        
+           break;
+                      
+       }
+        
+        
+    //   else{ if(user_new){user_new=true;} }
+
+    
+    
+    
+ 
+    }
+    if(user_new)
+    {
+        console.log("--system creating new entry--");
+        db.push("/notes["+notes_total+"]/id",user_id);
+    //    console.log("created id at "+notes_total.length);
+          db.push("/notes["+notes_total+"]/first","");
+      //   console.log("created first at "+notes_total.length);
+       db.push("/notes["+notes_total+"]/second","");
+       //  console.log("created second at "+notes_total.length);
+    
+    }
+   
+  
+  
+    
+ 
+ 
+    if (req.body.request.type === 'LaunchRequest') {
+      if(user_new){
         res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": true,
+        "shouldEndSession": false,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>Welcome to noteapp skill</speak>"
+          "ssml": "<speak>Welcome to note me skill"+"<audio src=\"https://s3.amazonaws.com/sounds226/boom.mp3\"/>"+"</speak>"
           
         }
       }
-    }); 
+    }); }
+        else{
+             res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": false,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>Welcome back to note me , you have saved "+user_notes+" notes"+"<audio src=\"https://s3.amazonaws.com/sounds226/boom.mp3\"/>"+"</speak>"
+          
+        }
+      }
+    });
+            
+        }
+     
     }
   else if (req.body.request.type === 'IntentRequest' &&
            req.body.request.intent.name === 'AMAZON.CancelIntent') 
@@ -133,18 +221,19 @@ app.post('/skill',  function(req, res) {
   else if (req.body.request.type === 'IntentRequest' &&
            req.body.request.intent.name === 'getinput') {
       
-   //   http://api.lighthouse247.com/api/v1/lighthouse/alexa_priorities
-      //<audio src="https://carfu.com/audio/carfu-welcome.mp3" />
-      //console.log(String(req.body.session.user.userId));
+
       
-    //  p_data(req.body.session.user.userId);
-       res.json({
+     
+      data=db.getData("/notes["+user_db_count+"]/first");
+          if(data.length===0){
+              db.push("/notes["+user_db_count+"]/first",req.body.request.intent.slots.task.value); 
+              res.json({
       "version": "1.0",
       "response": {
         "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>" +req.body.request.intent.slots.task.value
+          "ssml": "<speak>" +"Your data was saved successfully"
        
             +"</speak>"
           
@@ -152,13 +241,151 @@ app.post('/skill',  function(req, res) {
       }
     });
     
+          }
+      
+        
+          else if(data.length>0){
+            data=db.getData("/notes["+user_db_count+"]/second");  
+              if(data.length===0){
+                  db.push("/notes["+user_db_count+"]/second",req.body.request.intent.slots.task.value); 
+          res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"Your data was saved successfully"
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+          }
+              else{  res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": false,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"You have all slots full, Please choose delete to empty the slots"+"</speak>"
+       
+            
+          
+        }
+      }
+    });
+          
+      }
+          }
+      
+           
+       
      
    
   }
+    else if (req.body.request.type === 'IntentRequest' &&
+           req.body.request.intent.name === 'getoptions') {
+       
+      
+   if(!req.body.request.intent.slots.options.value)
+   {
+        
+        
+       res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": false,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"Sorry I didnt hear any options"
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+    
+   }
+      else if(req.body.request.intent.slots.options.value=="play")
+   {
+        
+        var result="";
+    
+    
+       data=db.getData("/notes["+user_db_count+"]/first");
+          if(data){
+              
+              result+=data;
+      
+    
+          }
+      
+         data=db.getData("/notes["+user_db_count+"]/second");
+         if(data){
+      
+             result+=" and "+data;
+           
+        
+        
+   
+          }
+       if(result){
+       
+       res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"Your saved notes are "+result
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+       }
+       else
+       {
+             res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"You have no saved notes"
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+       }
+   }
+        else if(req.body.request.intent.slots.options.value=="delete")
+            {
+              db.push("/notes["+user_db_count+"]/first",""); 
+                db.push("/notes["+user_db_count+"]/second",""); 
+                  res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"Your saved notes were deleted successfully"
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+            }
+        
       
       
 
-  
+    }
      
      
   
