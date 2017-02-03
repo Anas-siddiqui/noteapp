@@ -402,8 +402,26 @@ var data = db.getData("/notes["+i+"]/id");
     });
                     }
                     
+                    
+                    
                 }
-                else if(req.body.request.intent.slots.delete.value !="?"){}
+                else if(req.body.request.intent.slots.delete.value !="?")
+                {
+                  
+                     res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"Invalid number"
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+                }
                else{ 
               db.push("/notes["+user_db_count+"]/first",""); 
                 db.push("/notes["+user_db_count+"]/second",""); 
@@ -421,6 +439,44 @@ var data = db.getData("/notes["+i+"]/id");
       }
     });
                }
+                
+                
+                if(req.body.request.intent.slots.delete_option.value)
+                    {
+                    var temp=get_number(req.body.request.intent.slots.delete_option.value);
+                    if(temp=="empty")
+                    {
+                         res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"Invalid note number"
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+                    }
+                    else{
+                    db.push("/notes["+user_db_count+"]/"+temp,""); 
+                   
+                  res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"Your note was deleted successfully"
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+                    }
           
             }
         
@@ -496,11 +552,11 @@ app.use(function(err, req, res, next) {
 
 function get_number(input)
 {
-    if(input=="1" || input=="one"  ){return "first";}
-    else if(input=="2" || input=="two"  ){return "second";}
-    else if(input=="3" || input=="three"  ){return "third";}
-    else if(input=="4" || input=="four"  ){return "fourth";}
-    else if(input=="5" || input=="five"  ){return "fifth";}
+    if(input=="1" || input=="one" || input=="1st" || input=="first" ){return "first";}
+    else if(input=="2" || input=="two" || input=="2nd" || input=="second" ){return "second";}
+    else if(input=="3" || input=="three" || input=="3rd" || input=="third" ){return "third";}
+    else if(input=="4" || input=="four" || input=="4th" || input=="fourth" ){return "fourth";}
+    else if(input=="5" || input=="five" || input=="5th" || input=="fifth" ){return "fifth";}
     else {return "empty";}
     
     
