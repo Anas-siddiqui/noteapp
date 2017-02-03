@@ -405,7 +405,7 @@ var data = db.getData("/notes["+i+"]/id");
                     
                     
                 }
-                else if(req.body.request.intent.slots.delete.value !="?")
+                else if(req.body.request.intent.slots.delete.value =="?")
                 {
                   
                      res.json({
@@ -422,7 +422,8 @@ var data = db.getData("/notes["+i+"]/id");
       }
     });
                 }
-               else{ 
+   else if(!req.body.request.intent.slots.delete.value && !req.body.request.intent.slots.delete_option.value )
+               { 
               db.push("/notes["+user_db_count+"]/first",""); 
                 db.push("/notes["+user_db_count+"]/second",""); 
                   res.json({
