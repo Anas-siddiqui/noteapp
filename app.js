@@ -122,7 +122,7 @@ var data = db.getData("/notes["+i+"]/id");
       //   console.log("created first at "+notes_total.length);
        db.push("/notes["+notes_total+"]/second","");
        //  console.log("created second at "+notes_total.length);
-    
+    db.save();
     }
    
   
@@ -227,6 +227,7 @@ var data = db.getData("/notes["+i+"]/id");
       data=db.getData("/notes["+user_db_count+"]/first");
           if(data.length===0){
               db.push("/notes["+user_db_count+"]/first",req.body.request.intent.slots.task.value); 
+              db.save();
               res.json({
       "version": "1.0",
       "response": {
@@ -248,6 +249,7 @@ var data = db.getData("/notes["+i+"]/id");
             data=db.getData("/notes["+user_db_count+"]/second");  
               if(data.length===0){
                   db.push("/notes["+user_db_count+"]/second",req.body.request.intent.slots.task.value); 
+                  db.save();
           res.json({
       "version": "1.0",
       "response": {
@@ -386,6 +388,7 @@ var data = db.getData("/notes["+i+"]/id");
                     }
                     else{
                     db.push("/notes["+user_db_count+"]/"+temp,""); 
+                        db.save();
                    
                   res.json({
       "version": "1.0",
@@ -426,6 +429,7 @@ var data = db.getData("/notes["+i+"]/id");
                { 
               db.push("/notes["+user_db_count+"]/first",""); 
                 db.push("/notes["+user_db_count+"]/second",""); 
+                   db.save();
                   res.json({
       "version": "1.0",
       "response": {
@@ -463,6 +467,7 @@ var data = db.getData("/notes["+i+"]/id");
                     }
                     else{
                     db.push("/notes["+user_db_count+"]/"+temp,""); 
+                        db.save();
                    
                   res.json({
       "version": "1.0",
