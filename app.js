@@ -484,7 +484,8 @@ var data = db.getData("/notes["+i+"]/id");
       
 
     }
-    else{
+    
+        else{
           res.json({
       "version": "1.0",
       "response": {
@@ -506,7 +507,7 @@ var data = db.getData("/notes["+i+"]/id");
     
     
     
-    
+    }
 });
 
 
