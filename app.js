@@ -365,6 +365,46 @@ var data = db.getData("/notes["+i+"]/id");
    }
         else if(req.body.request.intent.slots.options.value=="delete")
             {
+                if(req.body.request.intent.slots.delete.value && req.body.request.intent.slots.delete.value !="?" )
+                {
+                    var temp=get_number(req.body.request.intent.slots.delete.value);
+                    if(temp=="empty")
+                    {
+                         res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"Invalid note number"
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+                    }
+                    else{
+                    db.push("/notes["+user_db_count+"]/"+temp,""); 
+                   
+                  res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"Your note was deleted successfully"
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+                    }
+                    
+                }
+                else if(req.body.request.intent.slots.delete.value !="?"){}
+               else{ 
               db.push("/notes["+user_db_count+"]/first",""); 
                 db.push("/notes["+user_db_count+"]/second",""); 
                   res.json({
@@ -380,11 +420,29 @@ var data = db.getData("/notes["+i+"]/id");
         }
       }
     });
+               }
+          
             }
         
       
       
 
+    }
+    else{
+          res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"Invalid request"
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+        
     }
      
      
@@ -435,6 +493,18 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+function get_number(input)
+{
+    if(input=="1" || input=="one"  ){return "first";}
+    else if(input=="2" || input=="two"  ){return "second";}
+    else if(input=="3" || input=="three"  ){return "third";}
+    else if(input=="4" || input=="four"  ){return "fourth";}
+    else if(input=="5" || input=="five"  ){return "fifth";}
+    else {return "empty";}
+    
+    
+}
 
 function tConvert (time) {
   // Check correct time format and split into components
