@@ -10,8 +10,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
  var request = require("request");
-var JsonDB = require('node-json-db');
-var db = new JsonDB("database_notes", true, false);
+
 var app = express();
 //
 var to_search="";
@@ -25,7 +24,8 @@ var user_id="";
 var notes_total;
   var user_db_count=0;
 var user_notes=0;
-
+ var JsonDB = require('node-json-db');
+var db = new JsonDB("database_notes", true, false);
 
 
 // view engine setup
@@ -65,9 +65,10 @@ function requestVerifier(req, res, next) {
 // catch 404 and forward to error handler
 
 app.post('/skill',  function(req, res) {
+   
     user_id="";
    user_notes=0;
-   
+   notes_total="";
     user_new=true;
     
  user_id=req.body.session.user.userId;
@@ -122,7 +123,7 @@ var data = db.getData("/notes["+i+"]/id");
       //   console.log("created first at "+notes_total.length);
        db.push("/notes["+notes_total+"]/second","");
        //  console.log("created second at "+notes_total.length);
-    db.save();
+  
     }
    
   
@@ -227,7 +228,7 @@ var data = db.getData("/notes["+i+"]/id");
       data=db.getData("/notes["+user_db_count+"]/first");
           if(data.length===0){
               db.push("/notes["+user_db_count+"]/first",req.body.request.intent.slots.task.value); 
-              db.save();
+         
               res.json({
       "version": "1.0",
       "response": {
@@ -249,7 +250,7 @@ var data = db.getData("/notes["+i+"]/id");
             data=db.getData("/notes["+user_db_count+"]/second");  
               if(data.length===0){
                   db.push("/notes["+user_db_count+"]/second",req.body.request.intent.slots.task.value); 
-                  db.save();
+           
           res.json({
       "version": "1.0",
       "response": {
@@ -388,7 +389,7 @@ var data = db.getData("/notes["+i+"]/id");
                     }
                     else{
                     db.push("/notes["+user_db_count+"]/"+temp,""); 
-                        db.save();
+                  
                    
                   res.json({
       "version": "1.0",
@@ -429,7 +430,7 @@ var data = db.getData("/notes["+i+"]/id");
                { 
               db.push("/notes["+user_db_count+"]/first",""); 
                 db.push("/notes["+user_db_count+"]/second",""); 
-                   db.save();
+               
                   res.json({
       "version": "1.0",
       "response": {
@@ -467,7 +468,7 @@ var data = db.getData("/notes["+i+"]/id");
                     }
                     else{
                     db.push("/notes["+user_db_count+"]/"+temp,""); 
-                        db.save();
+                     
                    
                   res.json({
       "version": "1.0",
