@@ -27,7 +27,7 @@ var user_notes=0;
  var JsonDB = require('node-json-db');
 var db = new JsonDB("database_notes", true, false);
 
-
+var http = require("http");
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -63,6 +63,9 @@ function requestVerifier(req, res, next) {
 }
   
 // catch 404 and forward to error handler
+setInterval(function() {
+    http.get("http://alexanoteapp.herokuapp.com");
+}, 300000);
 
 app.post('/skill',  function(req, res) {
    
