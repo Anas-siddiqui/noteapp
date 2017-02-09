@@ -10,7 +10,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
  var request = require("request");
-
+var connection;
 var app = express();
 //
 var to_search="";
@@ -25,16 +25,17 @@ var final_data_mysql="";
 var notes_total;
   var user_db_count=0;
 var user_notes=0;
+ 
  var JsonDB = require('node-json-db');
 var db = new JsonDB("database_notes", true, false);
 var mysql      = require('mysql');
-var connection = mysql.createConnection({
-  host     : 'sql9.freemysqlhosting.net',
-  user     : 'sql9157695',
-  password : 'E29R4Ucm2f',
-  database : 'sql9157695'
+connection = mysql.createPool({
+  host     : '68.178.143.103',
+  user     : 'noteme',
+  password : 'Deland24!',
+  database : 'noteme'
 });
-connection.connect();
+//connection.connect();
 var http = require("http");
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -75,21 +76,10 @@ setInterval(function() {
     http.get("http://alexanoteapp.herokuapp.com");
 }, 300000);
 
-app.post('/skill',  function(req, res) {
+app.post('/skill',make,  function(req, res) {
     
-    connection.query('SELECT * from Notes', function(err, rows, fields) {
-   // var temp=JSON.parse(rows);
-    //console.log(temp);
-   final_data_mysql=rows;
-        console.log(final_data_mysql);
     
-  if (!err)
-    console.log('The solution is: ', rows);
-  else
-    console.log('Error while performing Query.');
-  //  connection.end();
-});
-   
+   console.log(final_data_mysql);
     user_id="";
    user_notes=0;
    notes_total="";
@@ -100,6 +90,7 @@ app.post('/skill',  function(req, res) {
      try {
    // notes_total = db.getData("/notes");
          notes_total=final_data_mysql;
+        
          notes_total=notes_total.length;
         
          
@@ -141,10 +132,11 @@ app.post('/skill',  function(req, res) {
     
  
     }
-    var query="INSERT INTO Notes (userid) VALUES ('"+user_id+"')";
+    
     if(user_new)
     {
-        
+        var query="INSERT INTO Notes (userid,first,second,third,fourth,fifth) VALUES ('"+user_id+"','','','','','')";
+        addData(query);
      
        
   
@@ -182,7 +174,7 @@ app.post('/skill',  function(req, res) {
     });
             
         }
-     
+    
     }
   else if (req.body.request.type === 'IntentRequest' &&
            req.body.request.intent.name === 'AMAZON.CancelIntent') 
@@ -200,7 +192,7 @@ app.post('/skill',  function(req, res) {
       }
     });
       
-  
+
       
   }
     else if (req.body.request.type === 'IntentRequest' &&
@@ -249,10 +241,12 @@ app.post('/skill',  function(req, res) {
 
       
      data=final_data_mysql[user_db_count].first;
+      console.log("length is "+data.length+" "+data);
     //  data=db.getData("/notes["+user_db_count+"]/first");
           if(data.length===0){
               
-          var query="INSERT INTO Notes (first) VALUES ('"+req.body.request.intent.slots.task.value+"')";
+          var query="UPDATE Notes SET first=('"+req.body.request.intent.slots.task.value+"') WHERE id="+final_data_mysql[user_db_count].id;
+              addData(query);
               res.json({
       "version": "1.0",
       "response": {
@@ -266,15 +260,17 @@ app.post('/skill',  function(req, res) {
         }
       }
     });
+            
     
           }
       
         
           else if(data.length>0){
-            data=db.getData("/notes["+user_db_count+"]/second");  
+            data=final_data_mysql[user_db_count].second; 
               if(data.length===0){
-                  db.push("/notes["+user_db_count+"]/second",req.body.request.intent.slots.task.value); 
-           
+                  //db.push("/notes["+user_db_count+"]/second",req.body.request.intent.slots.task.value); 
+           var query="UPDATE Notes SET second=('"+req.body.request.intent.slots.task.value+"') WHERE id="+final_data_mysql[user_db_count].id;
+              addData(query);
           res.json({
       "version": "1.0",
       "response": {
@@ -288,6 +284,7 @@ app.post('/skill',  function(req, res) {
         }
       }
     });
+                  
           }
               else{  res.json({
       "version": "1.0",
@@ -307,7 +304,7 @@ app.post('/skill',  function(req, res) {
           }
       
            
-       
+      
      
    
   }
@@ -332,6 +329,7 @@ app.post('/skill',  function(req, res) {
         }
       }
     });
+       
     
    }
       else if(req.body.request.intent.slots.options.value=="play")
@@ -340,7 +338,8 @@ app.post('/skill',  function(req, res) {
         var result="";
     
     
-       data=db.getData("/notes["+user_db_count+"]/first");
+     //  data=db.getData("/notes["+user_db_count+"]/first");
+       data=final_data_mysql[user_db_count].first; 
           if(data){
               
               result+=data;
@@ -348,7 +347,8 @@ app.post('/skill',  function(req, res) {
     
           }
       
-         data=db.getData("/notes["+user_db_count+"]/second");
+     //    data=db.getData("/notes["+user_db_count+"]/second");
+       data=final_data_mysql[user_db_count].second; 
          if(data){
       
              result+=" and "+data;
@@ -372,6 +372,7 @@ app.post('/skill',  function(req, res) {
         }
       }
     });
+         
        }
        else
        {
@@ -388,6 +389,7 @@ app.post('/skill',  function(req, res) {
         }
       }
     });
+         
        }
    }
         else if(req.body.request.intent.slots.options.value=="delete")
@@ -410,11 +412,13 @@ app.post('/skill',  function(req, res) {
         }
       }
     });
+                       
                     }
                     else{
-                    db.push("/notes["+user_db_count+"]/"+temp,""); 
+              //      db.push("/notes["+user_db_count+"]/"+temp,""); 
                   
-                   
+                
+        
                   res.json({
       "version": "1.0",
       "response": {
@@ -428,6 +432,7 @@ app.post('/skill',  function(req, res) {
         }
       }
     });
+                     
                     }
                     
                     
@@ -449,12 +454,14 @@ app.post('/skill',  function(req, res) {
         }
       }
     });
+                   
                 }
    else if(!req.body.request.intent.slots.delete.value && !req.body.request.intent.slots.delete_option.value )
                { 
-              db.push("/notes["+user_db_count+"]/first",""); 
-                db.push("/notes["+user_db_count+"]/second",""); 
-               
+            //  db.push("/notes["+user_db_count+"]/first",""); 
+            //    db.push("/notes["+user_db_count+"]/second",""); 
+                     var query="DELETE FROM Notes WHERE ID = ('"+final_data_mysql[user_db_count].id+"')";
+                   addData(query);
                   res.json({
       "version": "1.0",
       "response": {
@@ -468,6 +475,7 @@ app.post('/skill',  function(req, res) {
         }
       }
     });
+               
                }
                 
                 
@@ -489,9 +497,10 @@ app.post('/skill',  function(req, res) {
         }
       }
     });
+                      
                     }
                     else{
-                    db.push("/notes["+user_db_count+"]/"+temp,""); 
+                  //  db.push("/notes["+user_db_count+"]/"+temp,""); 
                      
                    
                   res.json({
@@ -507,6 +516,7 @@ app.post('/skill',  function(req, res) {
         }
       }
     });
+                     
                     }
           
             }
@@ -535,22 +545,51 @@ app.post('/skill',  function(req, res) {
      
      
   
-    
+   
     
     
     }
+    console.log("ending");
+ // connection.release();
+    
 });
 
 
-app.get('/data',  function(req, res) {
+app.get('/data',make,  function(req, res) {
     console.log("IN DATA");
 
-
+console.log(final_data_mysql[0].userid);
 
 
 
 
 });
+function connect(req, res, next){
+   connection = mysql.createPool({
+  host     : '68.178.143.103',
+  user     : 'noteme',
+  password : 'Deland24!',
+  database : 'noteme'
+});
+    next();
+}
+function make(req, res, next){
+   
+    connection.query('SELECT * from Notes', function(err, rows, fields) {
+   // var temp=JSON.parse(rows);
+    //console.log(temp);
+   final_data_mysql=rows;
+    //res.send(final_data_mysql);
+   //     console.log(final_data_mysql);
+    
+  if (!err){
+   // console.log(rows);
+        next();}
+  else{
+    console.log('Error while performing Query.',err);}
+  //  connection.end();
+});
+}
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
@@ -640,7 +679,7 @@ function addData(query_data)
     connection.query(query_data, function(err, rows, fields) {
    
    
-    
+    console.log(query_data);
   if (!err)
     console.log('created successfully');
   else
