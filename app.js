@@ -74,7 +74,7 @@ setInterval(function() {
 app.post('/skill',make,  function(req, res) {
     
     
-   console.log(final_data_mysql);
+  // console.log(final_data_mysql);
     user_id="";
    user_notes=0;
    notes_total="";
@@ -101,7 +101,7 @@ app.post('/skill',make,  function(req, res) {
        if(user_id==data){
            
            user_db_count=i; 
-           console.log("matched at "+user_db_count); 
+         //  console.log("matched at "+user_db_count); 
            user_new=false; 
          
            data=final_data_mysql[i].first;
@@ -110,6 +110,18 @@ app.post('/skill',make,  function(req, res) {
               user_notes++;
           }
                data=final_data_mysql[i].second;
+          if(data){
+              user_notes++;
+          }
+           data=final_data_mysql[i].third;
+          if(data){
+              user_notes++;
+          }
+           data=final_data_mysql[i].fourth;
+          if(data){
+              user_notes++;
+          }
+           data=final_data_mysql[i].fifth;
           if(data){
               user_notes++;
           }
@@ -150,10 +162,10 @@ app.post('/skill',make,  function(req, res) {
         "shouldEndSession": false,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>Welcome to note me skill"+"<audio src=\"https://s3.amazonaws.com/sounds226/boom.mp3\"/>"+"</speak>"
+          "ssml": "<speak>Welcome to note me skill"+"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     }); }
         else{
              res.json({
@@ -162,10 +174,10 @@ app.post('/skill',make,  function(req, res) {
         "shouldEndSession": false,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>Welcome back to note me , you have saved "+user_notes+" notes"+"<audio src=\"https://s3.amazonaws.com/sounds226/boom.mp3\"/>"+"</speak>"
+          "ssml": "<speak>Welcome back to note me , you have saved "+user_notes+" notes"+"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
             
         }
@@ -219,7 +231,7 @@ app.post('/skill',make,  function(req, res) {
         "shouldEndSession": false,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>Lighthouse help"+"<break time=\"1s\"/>"
+          "ssml": "<speak>Note me help"+"<break time=\"1s\"/>"
        
             +"</speak>"
           
@@ -233,10 +245,10 @@ app.post('/skill',make,  function(req, res) {
   else if (req.body.request.type === 'IntentRequest' &&
            req.body.request.intent.name === 'getinput') {
       
-
+ if(req.body.session.attributes.STATE=="launched"){
       
      data=final_data_mysql[user_db_count].first;
-      console.log("length is "+data.length+" "+data);
+    //  console.log("length is "+data.length+" "+data);
     //  data=db.getData("/notes["+user_db_count+"]/first");
           if(data.length===0){
               
@@ -369,7 +381,7 @@ app.post('/skill',make,  function(req, res) {
       
            
       
-     
+  }else{launched(res);}
    
   }
     else if (req.body.request.type === 'IntentRequest' &&
@@ -398,7 +410,7 @@ app.post('/skill',make,  function(req, res) {
    }
       else if(req.body.request.intent.slots.options.value=="play")
    {
-        
+        if(req.body.session.attributes.STATE=="launched"){
         var result="";
     
     
@@ -406,7 +418,7 @@ app.post('/skill',make,  function(req, res) {
        data=final_data_mysql[user_db_count].first; 
           if(data){
               
-              result+=data;
+              result+=" first note is "+data;
       
     
           }
@@ -415,7 +427,34 @@ app.post('/skill',make,  function(req, res) {
        data=final_data_mysql[user_db_count].second; 
          if(data){
       
-             result+=" and "+data;
+             result+=" second note is "+data;
+           
+        
+        
+   
+          }
+       data=final_data_mysql[user_db_count].third; 
+         if(data){
+      
+             result+=" third note is "+data;
+           
+        
+        
+   
+          }
+       data=final_data_mysql[user_db_count].fourth; 
+         if(data){
+      
+             result+=" fourth note is "+data;
+           
+        
+        
+   
+          }
+       data=final_data_mysql[user_db_count].fifth; 
+         if(data){
+      
+             result+=" fifth note is "+data;
            
         
         
@@ -429,7 +468,7 @@ app.post('/skill',make,  function(req, res) {
         "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>" +"Your saved notes are "+result
+          "ssml": "<speak>"+ result
        
             +"</speak>"
           
@@ -455,9 +494,13 @@ app.post('/skill',make,  function(req, res) {
     });
          
        }
+       
+   }else{console.log("short");launched(res);}
    }
         else if(req.body.request.intent.slots.options.value=="delete")
             {
+              if(req.body.session.attributes.STATE=="launched"){
+             
                 if(req.body.request.intent.slots.delete.value && req.body.request.intent.slots.delete.value !="?" )
                 {
                     var temp=get_number(req.body.request.intent.slots.delete.value);
@@ -564,7 +607,8 @@ app.post('/skill',make,  function(req, res) {
                       
                     }
                     else{
-                  //  db.push("/notes["+user_db_count+"]/"+temp,""); 
+                 var query="UPDATE Notes SET "+temp +"=('') WHERE id="+final_data_mysql[user_db_count].id;
+              addData(query);
                      
                    
                   res.json({
@@ -586,8 +630,7 @@ app.post('/skill',make,  function(req, res) {
             }
         
       
-      
-
+            }else{launched(res);}
     }
     
         else{
@@ -613,16 +656,16 @@ app.post('/skill',make,  function(req, res) {
     
     
     }
-    console.log("ending");
+  //  console.log("ending");
  // connection.release();
     
 });
 
 
 app.get('/data',make,  function(req, res) {
-    console.log("IN DATA");
+   // console.log("IN DATA");
 
-console.log(final_data_mysql[0].userid);
+//console.log(final_data_mysql[0].userid);
 
 
 
@@ -702,52 +745,49 @@ function get_number(input)
     
 }
 
-function tConvert (time) {
-  // Check correct time format and split into components
-  time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
-
-  if (time.length > 1) { // If time format correct
-    time = time.slice (1);  // Remove full string match value
-    time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
-    time[0] = +time[0] % 12 || 12; // Adjust hours
-  }
-  return time.join (''); // return adjusted time or original string
-}
-
-function p_data(id){
-var headers = {
-    'User-Agent':       'Super Agent/0.0.1',
-    'Content-Type':     'application/x-www-form-urlencoded'
-}
-
-// Configure the request
-var options = {
-    url: 'http://api.lighthouse247.com/api/v1/lighthouse/alexa_priorities',
-    method: 'POST',
-    headers: headers,
-    form: {'userid': id}
-}
-
-// Start the request
-request(options, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-        // Print out the response body
-        console.log(body)
-    }
-})
 
 
+function launched(res){
+   if(user_new){
+        res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": false,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>Welcome to note me skill"+"</speak>"
+          
+        }
+      },"sessionAttributes": {"STATE":"launched"}
+    }); }
+        else{
+             res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": false,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>Welcome back to note me , you have saved "+user_notes+" notes"+"</speak>"
+          
+        }
+      },"sessionAttributes": {"STATE":"launched"}
+    });
+            
+        } 
 }
 function addData(query_data)
 {
     connection.query(query_data, function(err, rows, fields) {
    
    
-    console.log(query_data);
-  if (!err)
-    console.log('created successfully');
-  else
-    console.log('Error while adding');
+   // console.log(query_data);
+  if (!err){
+   // console.log('created successfully');
+  }
+  else{
+      //  console.log('Error while adding');
+  }
+  
   //  connection.end();
 });
 }
