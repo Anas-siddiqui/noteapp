@@ -2,7 +2,7 @@
 let alexaVerifier = require('alexa-verifier');
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
+
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -13,12 +13,7 @@ var users = require('./routes/users');
 var connection;
 var app = express();
 //
-var to_search="";
- var final_result;
-var json_final="";
 
-var card_text="";
-var timerstamp;
 var user_id="";
  var user_new=true;
 var final_data_mysql="";
@@ -247,13 +242,14 @@ app.post('/skill',make,  function(req, res) {
               
           var query="UPDATE Notes SET first=('"+req.body.request.intent.slots.task.value+"') WHERE id="+final_data_mysql[user_db_count].id;
               addData(query);
+              
               res.json({
       "version": "1.0",
       "response": {
         "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>" +"Your data was saved successfully"
+          "ssml": "<speak>" +"Your data was saved successfully on first slot"
        
             +"</speak>"
           
@@ -277,7 +273,7 @@ app.post('/skill',make,  function(req, res) {
         "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>" +"Your data was saved successfully"
+          "ssml": "<speak>" +"Your data was saved successfully on second slot"
        
             +"</speak>"
           
@@ -286,7 +282,70 @@ app.post('/skill',make,  function(req, res) {
     });
                   
           }
-              else{  res.json({
+              else if(data.length>0){
+                data=final_data_mysql[user_db_count].third; 
+                  if(data.length===0){
+                  //db.push("/notes["+user_db_count+"]/second",req.body.request.intent.slots.task.value); 
+           var query="UPDATE Notes SET third=('"+req.body.request.intent.slots.task.value+"') WHERE id="+final_data_mysql[user_db_count].id;
+              addData(query);
+          res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"Your data was saved successfully on third slot"
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+                  
+          }
+                  else if(data.length>0){
+                   data=final_data_mysql[user_db_count].fourth; 
+                      if(data.length===0){
+                  //db.push("/notes["+user_db_count+"]/second",req.body.request.intent.slots.task.value); 
+           var query="UPDATE Notes SET fourth=('"+req.body.request.intent.slots.task.value+"') WHERE id="+final_data_mysql[user_db_count].id;
+              addData(query);
+          res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"Your data was saved successfully on fourth slot"
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+                  
+          }
+                      else if(data.length>0){
+                           data=final_data_mysql[user_db_count].fifth; 
+                      if(data.length===0){
+                  //db.push("/notes["+user_db_count+"]/second",req.body.request.intent.slots.task.value); 
+           var query="UPDATE Notes SET fifth=('"+req.body.request.intent.slots.task.value+"') WHERE id="+final_data_mysql[user_db_count].id;
+              addData(query);
+          res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"Your data was saved successfully on fifth slot"
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+                  
+          }
+         else{  res.json({
       "version": "1.0",
       "response": {
         "shouldEndSession": false,
@@ -301,6 +360,11 @@ app.post('/skill',make,  function(req, res) {
     });
           
       }
+                          
+                      }
+                  }
+              }
+             
           }
       
            
