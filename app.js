@@ -67,9 +67,7 @@ function requestVerifier(req, res, next) {
 }
   
 // catch 404 and forward to error handler
-setInterval(function() {
-    http.get("http://alexanoteapp.herokuapp.com");
-}, 300000);
+
 
 app.post('/skill',make,  function(req, res) {
     
@@ -231,12 +229,12 @@ app.post('/skill',make,  function(req, res) {
         "shouldEndSession": false,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>Note me help"+"<break time=\"1s\"/>"
+          "ssml": "<speak>Save a note by speaking save my home work is done"+"<break time=\"1s\"/>"+"or you can play it by speaking play"
        
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
       
   
@@ -266,7 +264,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
             
     
@@ -290,7 +288,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
                   
           }
@@ -311,7 +309,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
                   
           }
@@ -332,7 +330,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
                   
           }
@@ -353,7 +351,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
                   
           }
@@ -368,7 +366,7 @@ app.post('/skill',make,  function(req, res) {
             
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
           
       }
@@ -403,7 +401,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
        
     
@@ -473,7 +471,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
          
        }
@@ -490,7 +488,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
          
        }
@@ -517,7 +515,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
                        
                     }
@@ -537,7 +535,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
                      
                     }
@@ -559,7 +557,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
                    
                 }
@@ -580,7 +578,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
                
                }
@@ -602,7 +600,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
                       
                     }
@@ -622,7 +620,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      }
+      },"sessionAttributes": {"STATE":"launched"}
     });
                      
                     }
