@@ -264,7 +264,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"insession"}
+      },"sessionAttributes": {"session":"insession"}
     });
             
     
@@ -288,7 +288,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"insession"}
+      },"sessionAttributes": {"session":"insession"}
     });
                   
           }
@@ -309,7 +309,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"insession"}
+      },"sessionAttributes": {"session":"insession"}
     });
                   
           }
@@ -330,7 +330,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"insession"}
+      },"sessionAttributes": {"session":"insession"}
     });
                   
           }
@@ -351,7 +351,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"insession"}
+      },"sessionAttributes": {"session":"insession"}
     });
                   
           }
@@ -366,7 +366,7 @@ app.post('/skill',make,  function(req, res) {
             
           
         }
-      },"sessionAttributes": {"STATE":"insession"}
+      },"sessionAttributes": {"session":"insession"}
     });
           
       }
@@ -471,7 +471,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"insession"}
+      },"sessionAttributes": {"session":"insession"}
     });
          
        }
@@ -488,7 +488,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"insession"}
+      },"sessionAttributes": {"session":"insession"}
     });
          
        }
@@ -515,7 +515,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"insession"}
+      },"sessionAttributes": {"session":"insession"}
     });
                        
                     }
@@ -535,7 +535,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"insession"}
+      },"sessionAttributes": {"session":"insession"}
     });
                      
                     }
@@ -557,7 +557,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"insession"}
+      },"sessionAttributes": {"session":"insession"}
     });
                    
                 }
@@ -578,7 +578,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"insession"}
+      },"sessionAttributes": {"session":"insession"}
     });
                
                }
@@ -600,7 +600,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"insession"}
+      },"sessionAttributes": {"session":"insession"}
     });
                       
                     }
@@ -620,7 +620,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"insession"}
+      },"sessionAttributes": {"session":"insession"}
     });
                      
                     }
