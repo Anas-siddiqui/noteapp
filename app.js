@@ -243,7 +243,7 @@ app.post('/skill',make,  function(req, res) {
   else if (req.body.request.type === 'IntentRequest' &&
            req.body.request.intent.name === 'getinput') {
       
- if(req.body.session.attributes.STATE=="launched"){
+ if(req.body.session.attributes.STATE=="launched" || req.body.session.attributes.STATE=="insession"){
       
      data=final_data_mysql[user_db_count].first;
     //  console.log("length is "+data.length+" "+data);
@@ -264,7 +264,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"launched"}
+      },"sessionAttributes": {"STATE":"insession"}
     });
             
     
@@ -288,7 +288,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"launched"}
+      },"sessionAttributes": {"STATE":"insession"}
     });
                   
           }
@@ -309,7 +309,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"launched"}
+      },"sessionAttributes": {"STATE":"insession"}
     });
                   
           }
@@ -330,7 +330,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"launched"}
+      },"sessionAttributes": {"STATE":"insession"}
     });
                   
           }
@@ -351,7 +351,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"launched"}
+      },"sessionAttributes": {"STATE":"insession"}
     });
                   
           }
@@ -366,7 +366,7 @@ app.post('/skill',make,  function(req, res) {
             
           
         }
-      },"sessionAttributes": {"STATE":"launched"}
+      },"sessionAttributes": {"STATE":"insession"}
     });
           
       }
@@ -408,7 +408,7 @@ app.post('/skill',make,  function(req, res) {
    }
       else if(req.body.request.intent.slots.options.value=="play")
    {
-        if(req.body.session.attributes.STATE=="launched"){
+        if(req.body.session.attributes.STATE=="launched"  || req.body.session.attributes.STATE=="insession"){
         var result="";
     
     
@@ -471,7 +471,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"launched"}
+      },"sessionAttributes": {"STATE":"insession"}
     });
          
        }
@@ -488,7 +488,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"launched"}
+      },"sessionAttributes": {"STATE":"insession"}
     });
          
        }
@@ -497,7 +497,7 @@ app.post('/skill',make,  function(req, res) {
    }
         else if(req.body.request.intent.slots.options.value=="delete")
             {
-              if(req.body.session.attributes.STATE=="launched"){
+              if(req.body.session.attributes.STATE=="launched"  || req.body.session.attributes.STATE=="insession"){
              
                 if(req.body.request.intent.slots.delete.value && req.body.request.intent.slots.delete.value !="?" )
                 {
@@ -515,7 +515,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"launched"}
+      },"sessionAttributes": {"STATE":"insession"}
     });
                        
                     }
@@ -535,7 +535,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"launched"}
+      },"sessionAttributes": {"STATE":"insession"}
     });
                      
                     }
@@ -557,7 +557,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"launched"}
+      },"sessionAttributes": {"STATE":"insession"}
     });
                    
                 }
@@ -578,7 +578,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"launched"}
+      },"sessionAttributes": {"STATE":"insession"}
     });
                
                }
@@ -600,7 +600,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"launched"}
+      },"sessionAttributes": {"STATE":"insession"}
     });
                       
                     }
@@ -620,7 +620,7 @@ app.post('/skill',make,  function(req, res) {
             +"</speak>"
           
         }
-      },"sessionAttributes": {"STATE":"launched"}
+      },"sessionAttributes": {"STATE":"insession"}
     });
                      
                     }
