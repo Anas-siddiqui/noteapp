@@ -22,7 +22,7 @@ var notes_total;
 var user_notes=0;
  
 
-var db = new JsonDB("database_notes", true, false);
+
 var mysql      = require('mysql');
 connection = mysql.createPool({
   host     : '68.178.143.103',
