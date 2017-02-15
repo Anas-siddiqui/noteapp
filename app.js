@@ -21,7 +21,7 @@ var notes_total;
   var user_db_count=0;
 var user_notes=0;
  
- var JsonDB = require('node-json-db');
+
 var db = new JsonDB("database_notes", true, false);
 var mysql      = require('mysql');
 connection = mysql.createPool({
@@ -66,10 +66,14 @@ function requestVerifier(req, res, next) {
     );
 }
   
+var http = require("http");
+setInterval(function() {
+    http.get("http://alexanoteapp.herokuapp.com");
+}, 300000); 
 // catch 404 and forward to error handler
 
 
-app.post('/skill',alexaVerifier,make,  function(req, res) {
+app.post('/skill',requestVerifier,make,  function(req, res) {
     
     
   // console.log(final_data_mysql);
@@ -191,7 +195,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
         "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>hmm see you soon</speak>"
+          "ssml": "<speak>See you soon</speak>"
           
         }
       }
@@ -210,7 +214,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
         "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>hmm see you soon</speak>"
+          "ssml": "<speak>See you soon</speak>"
           
         }
       }
@@ -256,7 +260,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
               res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>" +"Your data was saved successfully on first slot"
@@ -280,7 +284,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
           res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>" +"Your data was saved successfully on second slot"
@@ -301,7 +305,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
           res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>" +"Your data was saved successfully on third slot"
@@ -322,7 +326,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
           res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>" +"Your data was saved successfully on fourth slot"
@@ -343,7 +347,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
           res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>" +"Your data was saved successfully on fifth slot"
@@ -358,7 +362,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
          else{  res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>" +"You have all slots full, Please choose delete to empty the slots"+"</speak>"
@@ -393,7 +397,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
        res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>" +"Sorry I didnt hear any options"
@@ -465,7 +469,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
        res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>"+ result
@@ -482,7 +486,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
              res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>" +"You have no saved notes"
@@ -509,7 +513,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
                          res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>" +"Invalid note number"
@@ -529,7 +533,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
                   res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>" +"Your note was deleted successfully"
@@ -551,7 +555,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
                      res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>" +"Invalid number"
@@ -572,7 +576,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
                   res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>" +"Your saved notes were deleted successfully"
@@ -594,7 +598,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
                          res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>" +"Invalid note number"
@@ -614,7 +618,7 @@ app.post('/skill',alexaVerifier,make,  function(req, res) {
                   res.json({
       "version": "1.0",
       "response": {
-        "shouldEndSession": false,
+        "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
           "ssml": "<speak>" +"Your note was deleted successfully"
