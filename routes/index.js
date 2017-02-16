@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 var obj;
   
     
-
+res.send("hello world");
     
     
 });
