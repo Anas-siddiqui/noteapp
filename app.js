@@ -164,7 +164,7 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
         "shouldEndSession": false,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>Welcome to note me skill"+"</speak>"
+          "ssml": "<speak>Welcome to note me skill, you can now save , play and delete notes"+"</speak>"
           
         }
       },"sessionAttributes": {"STATE":"launched"}
@@ -176,7 +176,7 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
         "shouldEndSession": false,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>Welcome back to note me , you have saved "+user_notes+" notes"+"</speak>"
+          "ssml": "<speak>Welcome back to note me , you have saved "+user_notes+" notes"+" you can now save , play and delete notes</speak>"
           
         }
       },"sessionAttributes": {"STATE":"launched"}
@@ -402,7 +402,7 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
           "type": "SSML",
           "ssml": "<speak>" +"Sorry I didnt hear any options"
        
-             +"<break time=\"1s\"/>" +"say stop to exit or continue saying commands</speak>"
+             +"<break time=\"1s\"/>" +"</speak>"
           
         }
       },"sessionAttributes": {"STATE":"launched"}
@@ -474,7 +474,7 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
           "type": "SSML",
           "ssml": "<speak>"+ result
        
-            +"<break time=\"1s\"/>" +"say stop to exit or continue saying commands</speak>"
+            +"<break time=\"1s\"/>" +"</speak>"
           
         }
       },"sessionAttributes": {"STATE":"insession"}
@@ -491,7 +491,7 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
           "type": "SSML",
           "ssml": "<speak>" +"You have no saved notes"
        
-            +"<break time=\"1s\"/>" +"say stop to exit or continue saying commands</speak>"
+            +"<break time=\"1s\"/>" +"</speak>"
           
         }
       },"sessionAttributes": {"STATE":"insession"}
@@ -518,7 +518,7 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
           "type": "SSML",
           "ssml": "<speak>" +"Invalid note number"
        
-             +"<break time=\"1s\"/>" +"say stop to exit or continue saying commands</speak>"
+             +"<break time=\"1s\"/>" +"</speak>"
           
         }
       },"sessionAttributes": {"STATE":"insession"}
@@ -538,7 +538,7 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
           "type": "SSML",
           "ssml": "<speak>" +"Your note was deleted successfully"
        
-            +"<break time=\"1s\"/>" +"say stop to exit or continue saying commands</speak>"
+            +"<break time=\"1s\"/>" +"</speak>"
           
         }
       },"sessionAttributes": {"STATE":"insession"}
@@ -560,7 +560,7 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
           "type": "SSML",
           "ssml": "<speak>" +"Invalid number"
        
-            +"<break time=\"1s\"/>" +"say stop to exit or continue saying commands</speak>"
+            +"<break time=\"1s\"/>" +"</speak>"
           
         }
       },"sessionAttributes": {"STATE":"insession"}
@@ -581,7 +581,7 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
           "type": "SSML",
           "ssml": "<speak>" +"Your saved notes were deleted successfully"
        
-            +"<break time=\"1s\"/>" +"say stop to exit or continue saying commands</speak>"
+            +"<break time=\"1s\"/>" +"</speak>"
           
         }
       },"sessionAttributes": {"STATE":"insession"}
@@ -603,7 +603,7 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
           "type": "SSML",
           "ssml": "<speak>" +"Invalid note number"
        
-            +"<break time=\"1s\"/>" +"say stop to exit or continue saying commands</speak>"
+            +"<break time=\"1s\"/>" +"</speak>"
           
         }
       },"sessionAttributes": {"STATE":"insession"}
@@ -623,7 +623,7 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
           "type": "SSML",
           "ssml": "<speak>" +"Your note was deleted successfully"
        
-           +"<break time=\"1s\"/>" +"say stop to exit or continue saying commands</speak>"
+           +"<break time=\"1s\"/>" +"</speak>"
           
         }
       },"sessionAttributes": {"STATE":"insession"}
@@ -660,6 +660,20 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
     
     
     }
+    else{ res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>" +"Invalid request"
+       
+            +"</speak>"
+          
+        }
+      }
+    });
+        }
   //  console.log("ending");
  // connection.release();
     
