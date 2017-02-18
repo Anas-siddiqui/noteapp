@@ -73,9 +73,10 @@ setInterval(function() {
 // catch 404 and forward to error handler
 
 
-app.post('/skill',requestVerifier,make,  function(req, res) {
+app.post('/skill',make,  function(req, res) {
     
-    
+  
+
   // console.log(final_data_mysql);
     user_id="";
    user_notes=0;
@@ -246,9 +247,12 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
   }
   else if (req.body.request.type === 'IntentRequest' &&
            req.body.request.intent.name === 'getinput') {
-      
- if(req.body.session.attributes.STATE=="launched" || req.body.session.attributes.STATE=="insession"){
-      
+   
+  if(req.body.session.attributes){
+    
+ if(req.body.session.attributes.STATE=="launched" || req.body.session.attributes.STATE=="insession") 
+ {
+     
      data=final_data_mysql[user_db_count].first;
     //  console.log("length is "+data.length+" "+data);
     //  data=db.getData("/notes["+user_db_count+"]/first");
@@ -383,7 +387,11 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
       
            
       
-  }else{launched(res);}
+  }}
+      else{
+         
+          launched(res);
+      }
    
   }
     else if (req.body.request.type === 'IntentRequest' &&
@@ -412,7 +420,7 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
    }
       else if(req.body.request.intent.slots.options.value=="play")
    {
-       
+       if(req.body.session.attributes){
         if(req.body.session.attributes.STATE=="launched"  || req.body.session.attributes.STATE=="insession"){
            
         var result="";
@@ -499,10 +507,13 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
          
        }
        
-   }else{console.log("short");launched(res);}
+   }}
+
+       else{launched(res);}
    }
         else if(req.body.request.intent.slots.options.value=="delete")
             {
+                if(req.body.session.attributes){
               if(req.body.session.attributes.STATE=="launched"  || req.body.session.attributes.STATE=="insession"){
              
                 if(req.body.request.intent.slots.delete.value && req.body.request.intent.slots.delete.value !="?" )
@@ -634,7 +645,8 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
             }
         
       
-            }else{launched(res);}
+            }}
+                else{launched(res);}
     }
     
         else{
@@ -766,6 +778,7 @@ function get_number(input)
 
 
 function launched(res){
+    
    if(user_new){
         res.json({
       "version": "1.0",
@@ -773,7 +786,7 @@ function launched(res){
         "shouldEndSession": false,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>Welcome to note me skill"+"</speak>"
+          "ssml": "<speak>Welcome to note me skill"+"now from here you can save, play or delete notes</speak>"
           
         }
       },"sessionAttributes": {"STATE":"launched"}
@@ -785,7 +798,7 @@ function launched(res){
         "shouldEndSession": false,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>Welcome back to note me , you have saved "+user_notes+" notes"+"</speak>"
+          "ssml": "<speak>Welcome back to note me , you have saved "+user_notes+" notes"+"  now from here you can save, play or delete notes</speak>"
           
         }
       },"sessionAttributes": {"STATE":"launched"}
