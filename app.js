@@ -430,11 +430,21 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
                         result="Invalid note number";
                     }
                     else{
-                       if(temp=="first"){result=" first note is "+data;}
-                        else if(temp="second"){ result=" second note is "+data;}
-                        else if(temp="third"){result=" third note is "+data;}
-                        else if(temp="fourth"){result=" fourth note is "+data;}
-                        else if(temp="fifth"){result=" fifth note is "+data;}
+                       if(temp=="first"){
+                             data=final_data_mysql[user_db_count].first; 
+                           result=" first note is "+data;}
+                        else if(temp="second"){
+                             data=final_data_mysql[user_db_count].second; 
+                            result=" second note is "+data;}
+                        else if(temp="third"){
+                              data=final_data_mysql[user_db_count].third; 
+                            result=" third note is "+data;}
+                        else if(temp="fourth"){
+                             data=final_data_mysql[user_db_count].fourth; 
+                            result=" fourth note is "+data;}
+                        else if(temp="fifth"){
+                             data=final_data_mysql[user_db_count].fifth; 
+                            result=" fifth note is "+data;}
                   
                      
                     }
