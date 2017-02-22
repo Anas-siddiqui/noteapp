@@ -433,16 +433,16 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
                        if(temp=="first"){
                              data=final_data_mysql[user_db_count].first; 
                            result=" first note is "+data;}
-                        else if(temp="second"){
+                        else if(temp=="second"){
                              data=final_data_mysql[user_db_count].second; 
                             result=" second note is "+data;}
-                        else if(temp="third"){
+                        else if(temp=="third"){
                               data=final_data_mysql[user_db_count].third; 
                             result=" third note is "+data;}
-                        else if(temp="fourth"){
+                        else if(temp=="fourth"){
                              data=final_data_mysql[user_db_count].fourth; 
                             result=" fourth note is "+data;}
-                        else if(temp="fifth"){
+                        else if(temp=="fifth"){
                              data=final_data_mysql[user_db_count].fifth; 
                             result=" fifth note is "+data;}
                   
