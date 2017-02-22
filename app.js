@@ -423,8 +423,8 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
     //   if(req.body.session.attributes){
     //    if(req.body.session.attributes.STATE=="launched"  || //req.body.session.attributes.STATE=="insession"){
        var result="";
-           if(req.body.request.intent.slots.delete.value && req.body.request.intent.slots.delete.value !="?" ){
-               var temp=get_number(req.body.request.intent.slots.delete.value);
+           if(req.body.request.intent.slots.delete_option.value && req.body.request.intent.slots.delete_option.value !="?" ){
+               var temp=get_number(req.body.request.intent.slots.delete_option.value);
                     if(temp=="empty")
                     {
                         result="Invalid note number";
@@ -440,7 +440,7 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
                     }
                
            }
-       else if(req.body.request.intent.slots.delete.value =="?"){result="Invalid number";}
+       else if(req.body.request.intent.slots.delete_option.value =="?"){result="Invalid number";}
        else{
            
            data=final_data_mysql[user_db_count].first; 
