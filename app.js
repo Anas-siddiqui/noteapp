@@ -432,19 +432,36 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
                     else{
                        if(temp=="first"){
                              data=final_data_mysql[user_db_count].first; 
+                           if(data){
                            result=" first note is "+data;}
+                           else{result=" No saved note at this slot";}
+                       }
                         else if(temp=="second"){
                              data=final_data_mysql[user_db_count].second; 
+                             if(data){
                             result=" second note is "+data;}
+                            else{result=" No saved note at this slot";}
+                            
+                        }
                         else if(temp=="third"){
                               data=final_data_mysql[user_db_count].third; 
-                            result=" third note is "+data;}
+                             if(data){
+                            result=" third note is "+data;
+                             }
+                            else{result=" No saved note at this slot";}
+                        }
                         else if(temp=="fourth"){
                              data=final_data_mysql[user_db_count].fourth; 
+                             if(data){
                             result=" fourth note is "+data;}
+                            else{result=" No saved note at this slot";}
+                        }
                         else if(temp=="fifth"){
                              data=final_data_mysql[user_db_count].fifth; 
+                             if(data){
                             result=" fifth note is "+data;}
+                            else{result=" No saved note at this slot";}
+                        }
                   
                      
                     }
