@@ -422,12 +422,28 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
    {
     //   if(req.body.session.attributes){
     //    if(req.body.session.attributes.STATE=="launched"  || //req.body.session.attributes.STATE=="insession"){
+       var result="";
+           if(req.body.request.intent.slots.delete.value && req.body.request.intent.slots.delete.value !="?" ){
+               var temp=get_number(req.body.request.intent.slots.delete.value);
+                    if(temp=="empty")
+                    {
+                        result="Invalid note number";
+                    }
+                    else{
+                       if(temp=="first"){result=" first note is "+data;}
+                        else if(temp="second"){ result=" second note is "+data;}
+                        else if(temp="third"){result=" third note is "+data;}
+                        else if(temp="fourth"){result=" fourth note is "+data;}
+                        else if(temp="fifth"){result=" fifth note is "+data;}
+                  
+                     
+                    }
+               
+           }
+       else if(req.body.request.intent.slots.delete.value =="?"){result="Invalid number";}
+       else{
            
-        var result="";
-    
-    
-     //  data=db.getData("/notes["+user_db_count+"]/first");
-       data=final_data_mysql[user_db_count].first; 
+           data=final_data_mysql[user_db_count].first; 
           if(data){
               
               result+=" first note is "+data;
@@ -472,6 +488,13 @@ app.post('/skill',requestVerifier,make,  function(req, res) {
         
    
           }
+       }
+       
+        
+    
+    
+     //  data=db.getData("/notes["+user_db_count+"]/first");
+       
        if(result){
        
        res.json({
